@@ -1,0 +1,102 @@
+{
+  "meta": {
+    "hostname": "zammad.example.com",
+    "collected_at": "2026-04-27T10:30:00Z",
+    "collector_version": "2.0.0",
+    "running_as": "root"
+  },
+  "system": {
+    "os": "Ubuntu 22.04.3 LTS",
+    "kernel": "5.15.0-91-generic",
+    "arch": "x86_64",
+    "virtualization": "kvm",
+    "bios_vendor": "SeaBIOS",
+    "product_name": "Standard PC (i440FX + PIIX, 1996)",
+    "uptime_seconds": 345600
+  },
+  "hardware": {
+    "vcpus": 2,
+    "cpu_model": "Intel(R) Core(TM) i7-8700 CPU @ 3.20GHz",
+    "ram_gb": "4.0",
+    "disks": [
+      {"device":"/dev/sda1","mount":"/","size":"32G","used":"8.2G","avail":"22G","use_pct":"28%"},
+      {"device":"/dev/sda2","mount":"/boot","size":"512M","used":"120M","avail":"392M","use_pct":"24%"}
+    ]
+  },
+  "network": {
+    "primary_ip": "192.168.120.94",
+    "gateway": "192.168.120.1",
+    "dns_servers": [
+      "192.168.1.1",
+      "8.8.8.8"
+    ],
+    "interfaces": [
+      {"name":"eth0","address":"192.168.120.94/24","mac":"52:54:00:ab:cd:ef"}
+    ]
+  },
+  "access": {
+    "ssh_port": "22",
+    "ssh_password_auth": "no",
+    "ssh_pubkey_auth": "yes",
+    "ssh_root_login": "prohibit-password"
+  },
+  "users": {
+    "users": [
+      {"name":"dockeruser","uid":1001,"home":"/home/dockeruser","shell":"/bin/bash","sudo":false,"docker":true,"ssh_keys":0},
+      {"name":"mpadmin","uid":1000,"home":"/home/mpadmin","shell":"/bin/bash","sudo":true,"docker":true,"ssh_keys":1},
+      {"name":"root","uid":0,"home":"/root","shell":"/bin/bash","sudo":false,"docker":false,"ssh_keys":1}
+    ],
+    "sudo_members": [
+      "mpadmin"
+    ],
+    "docker_members": [
+      "dockeruser",
+      "mpadmin"
+    ]
+  },
+  "ports_tcp": [
+    {"port":22,"bind":"0.0.0.0","process":"sshd"},
+    {"port":80,"bind":"0.0.0.0","process":"traefik"},
+    {"port":443,"bind":"0.0.0.0","process":"traefik"}
+  ],
+  "ports_udp": [],
+  "services": [
+    "docker.service",
+    "ssh.service",
+    "traefik.service"
+  ],
+  "docker": {
+    "installed": true,
+    "version": "29.3.0",
+    "api_version": "1.54",
+    "compose_version": "2.27.0",
+    "compose_files": [
+      "/opt/zammad/docker-compose.yml"
+    ],
+    "containers": [
+      {"name":"zammad-elasticsearch","image":"elasticsearch:8.11.1","status":"Up 4 days","ports":"","compose_project":"zammad","compose_dir":"/opt/zammad","managed_by_compose":true},
+      {"name":"zammad-nginx","image":"zammad/zammad-docker-compose:latest","status":"Up 4 days","ports":"","compose_project":"zammad","compose_dir":"/opt/zammad","managed_by_compose":true},
+      {"name":"zammad-postgresql","image":"postgres:15.4","status":"Up 4 days","ports":"","compose_project":"zammad","compose_dir":"/opt/zammad","managed_by_compose":true},
+      {"name":"zammad-railsserver","image":"zammad/zammad-docker-compose:latest","status":"Up 4 days","ports":"","compose_project":"zammad","compose_dir":"/opt/zammad","managed_by_compose":true}
+    ],
+    "networks": [
+      {"name":"proxy","driver":"bridge","scope":"local"},
+      {"name":"zammad-internal","driver":"bridge","scope":"local"}
+    ],
+    "volumes": [
+      {"name":"zammad_elasticsearch-data","driver":"local"},
+      {"name":"zammad_postgresql-data","driver":"local"},
+      {"name":"zammad_zammad-data","driver":"local"}
+    ]
+  },
+  "ssh_keys": [
+    {"user":"mpadmin","file":"/home/mpadmin/.ssh/authorized_keys","type":"sk-ssh-ed25519@openssh.com","comment":"YubiKey-5","fingerprint":"SHA256:abc123def456...","key_preview":"AAAAGnNrLXNzaC1...AAAAAAA"}
+  ],
+  "sudoers": [
+    {"file":"/etc/sudoers","rule":"mpadmin ALL=(ALL:ALL) ALL","nopasswd":false,"full_root":true}
+  ],
+  "file_integrity": [
+    {"path":"/etc/passwd","exists":true,"sha256":"a1b2c3d4e5f6...","size":1842,"permissions":"-rw-r--r--","owner":"root:root","modified_unix":1714000000},
+    {"path":"/etc/ssh/sshd_config","exists":true,"sha256":"f6e5d4c3b2a1...","size":3284,"permissions":"-rw-r--r--","owner":"root:root","modified_unix":1714000000}
+  ]
+}
