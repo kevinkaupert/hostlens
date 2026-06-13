@@ -1,0 +1,17 @@
+# Snapshots (werden im separaten Snapshot-Repo gespeichert)
+*.json
+!package.json
+!example-snapshot.json
+
+# Temporäre Dateien
+*.tmp
+*.bak
+*.swp
+*~
+
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
